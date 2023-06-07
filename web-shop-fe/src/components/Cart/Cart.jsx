@@ -2,13 +2,18 @@ import React, { useContext, useState } from "react";
 import { CartContext } from "../../store/cartContext";
 import classes from "./Cart.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import buyerService from "../../services/buyerService";
+import { useEffect } from "react";
 
 const Cart = () => {
   const navigator = useNavigate();
   const cartContext = useContext(CartContext);
   const [address, setAddress] = useState("");
   const [comment, setComment] = useState("");
+
+  useEffect(() => {
+    setAddress(cartContext.address);
+    setComment(cartContext.comment);
+  }, [cartContext.address, cartContext.comment]);
 
   const handleRemoveItem = (itemId) => {
     cartContext.removeFromCart(itemId);
@@ -30,35 +35,15 @@ const Cart = () => {
     return totalPrice;
   };
 
-  const handleConfirmOrder = async () => {
-    const items = cartContext.cartItems.map((item) => ({
-      productId: item.id,
-      productAmount: item.quantity,
-    }));
-
-    if (items.length === 0) {
-      alert("You have to buy atleast 1 item");
-      return;
-    }
-
+  const handlePurchase = async () => {
     if (!address || address.trim() === "") {
       alert("Address is reqired");
       return;
     }
 
-    const createOrderValues = {
-      items,
-      deliveryAddress: address.trim(),
-      comment,
-    };
-
-    try {
-      await buyerService.createOrder(createOrderValues);
-      cartContext.clearCart();
-      navigator("/orders_buyer");
-    } catch (error) {
-      if (error.response) alert(error.response.data.Exception);
-    }
+    cartContext.setCartAddress(address);
+    cartContext.setCartComment(comment);
+    navigator('/confirm_purchase');
   };
 
   return (
@@ -129,8 +114,8 @@ const Cart = () => {
       </div>
       <div className={classes.linkButton}>
         <Link className={classes.link} to="/create_new_order" />
-        <button className={classes.confirmOrder} onClick={handleConfirmOrder}>
-          Confirm Order
+        <button className={classes.confirmPurchase} onClick={handlePurchase}>
+          Confirm Purchase
         </button>
       </div>
     </div>

@@ -60,5 +60,16 @@ namespace WebShop.Controllers
             await _buyerService.DeclineOrder(id, buyerId);
             return Ok();
         }
+
+        [HttpPost("GetTotalPrice")]
+        [Authorize(Roles = "Buyer")]
+        public async Task<IActionResult> GetTotalPrice([FromBody]List<CreateItemDTO> items)
+        {
+            if (!int.TryParse((User.Claims.First(c => c.Type == "UserId").Value), out int buyerId))
+                throw new BadRequestException("Error occured with ID. Please try again.");
+
+            double totalPrice = await _buyerService.GetTotalPrice(items, buyerId);
+            return Ok(totalPrice);
+        }
     }
 }

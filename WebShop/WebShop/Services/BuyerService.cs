@@ -119,5 +119,35 @@ namespace WebShop.Services
             List<Product> availableProduct = products.Where(x => x.Amount > 0).ToList();
             return _mapper.Map<List<ProductDTO>>(availableProduct);
         }
+
+        public async Task<double> GetTotalPrice(List<CreateItemDTO> items, int buyerId)
+        {
+            User? buyer = await _unitOfWork.UsersRepository.Get(buyerId);
+            if (buyer == null)
+                throw new UnauthorizedException($"Unable to find user with ID: {buyerId}.");
+
+            double totalPrice = 0;
+            var sellerIds = new List<int>();
+
+            foreach (var item in items)
+            {
+                Product? product = await _unitOfWork.ProductsRepository.Get(item.ProductId);
+                if (product == null)
+                    throw new NotFoundException("Product is non existent.");
+
+                if (item.ProductAmount > product.Amount)
+                    throw new BadRequestException($"Currently there is only {product.Amount} {product.Name}s in stock.");
+
+                if (item.ProductAmount < 0)
+                    throw new BadRequestException("Can't buy negative number of products.");
+
+                totalPrice += item.ProductAmount * product.Price;
+                if (!sellerIds.Contains(product.SellerId))
+                    sellerIds.Add(product.SellerId);
+            }
+
+            totalPrice += sellerIds.Count() * DeliveryFee;
+            return totalPrice;
+        }
     }
 }

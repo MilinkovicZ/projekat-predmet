@@ -2,6 +2,7 @@ import API from "../api/api.js";
 import ProfileModel from "../models/profileModel.js";
 
 const register = async (registerValues) => {
+  console.log(registerValues)
   await API.post("Auth/Register", registerValues);
 };
 

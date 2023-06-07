@@ -155,6 +155,7 @@
   cursor: pointer;
   transition: background-color 0.3s;
   text-decoration: none;
+  margin-bottom: 20px;
 }
 
 .link:hover{
@@ -167,7 +168,7 @@
 }
 
 
-.confirmOrder {
+.confirmPurchase {
   background-color: darkgreen;
   color: white;
   padding: 12px;
@@ -176,9 +177,10 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-bottom: 20px;
 }
 
-.confirmOrder:hover {
+.confirmPurchase:hover {
   opacity: .7;
 }
 

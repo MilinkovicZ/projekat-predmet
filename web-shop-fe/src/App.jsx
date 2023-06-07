@@ -13,6 +13,7 @@ import CreateProduct from "./components/Product/CreateProduct.jsx"
 import UpdateProduct from "./components/Product/UpdateProduct.jsx";
 import NewOrder from "./components/Order/NewOrder.jsx";
 import Cart from "./components/Cart/Cart.jsx";
+import ConfirmPurchase from "./components/ConfirmPurchase/ConfirmPurchase.jsx";
 
 function App() {
   const context = useContext(AuthContext);
@@ -74,6 +75,10 @@ function App() {
         <Route
           path="/cart"
           element={role === "Buyer" ? <Cart/> : <Navigate to="/dashboard"/>}
+        />
+        <Route
+          path="/confirm_purchase"
+          element={role === "Buyer" ? <ConfirmPurchase/> : <Navigate to="/dashboard"/>}
         />
       </Routes>
     </React.Fragment>
