@@ -15,7 +15,7 @@ const ProductsMap = () => {
   Geocode.enableDebug();
 
   const position = [46.104586472419314, 19.664730942252326];
-  const [ordersPositions, setOrdersPositions] = useState([]);
+  const [markersPositions, setMarkersPositions] = useState([]);
 
   const markerIcon = new L.Icon({
     iconUrl: "package.png",
@@ -41,7 +41,7 @@ const ProductsMap = () => {
       }
     }
 
-    setOrdersPositions(markersData);
+    setMarkersPositions(markersData);
   };
 
   return (
@@ -51,7 +51,7 @@ const ProductsMap = () => {
       style={{ width: "100vw", height: "100vh" }}
     >
       <TileLayer url={process.env.REACT_APP_URL_KEY} />
-      {ordersPositions.map((marker) => (
+      {markersPositions.map((marker) => (
         <div key={marker.id}>
           <Marker position={[marker.lat, marker.lon]} icon={markerIcon}>
             <Popup>Order number: {marker.id}</Popup>
