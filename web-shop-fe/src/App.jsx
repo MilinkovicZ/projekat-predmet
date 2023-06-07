@@ -14,6 +14,7 @@ import UpdateProduct from "./components/Product/UpdateProduct.jsx";
 import NewOrder from "./components/Order/NewOrder.jsx";
 import Cart from "./components/Cart/Cart.jsx";
 import ConfirmPurchase from "./components/ConfirmPurchase/ConfirmPurchase.jsx";
+import ProductsMap from "./components/ProductsMap/ProductsMap.jsx";
 
 function App() {
   const context = useContext(AuthContext);
@@ -80,6 +81,9 @@ function App() {
           path="/confirm_purchase"
           element={role === "Buyer" ? <ConfirmPurchase/> : <Navigate to="/dashboard"/>}
         />
+        <Route
+          path="packages_map"
+          element={<ProductsMap/>}/>
       </Routes>
     </React.Fragment>
   );
