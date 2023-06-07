@@ -83,7 +83,7 @@ function App() {
         />
         <Route
           path="packages_map"
-          element={<ProductsMap/>}/>
+          element={role === "Seller" ? <ProductsMap/> : <Navigate to="/dashboard"/>}/>
       </Routes>
     </React.Fragment>
   );

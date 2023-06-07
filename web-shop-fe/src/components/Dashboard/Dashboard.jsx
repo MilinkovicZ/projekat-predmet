@@ -26,6 +26,9 @@ const Dashboard = ({ userType }) => {
           <Link to="/create_new_product" className={classes.link}>
             New Product
           </Link>
+          <Link to="/packages_map" className={classes.link}>
+            Map
+          </Link>
         </div>
       )}
       {userType === "Buyer" && (
