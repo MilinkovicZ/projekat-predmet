@@ -28,8 +28,6 @@ namespace WebShop.Services
             var order = _mapper.Map<Order>(orderDTO);
             order.BuyerId = buyerId;
             order.OrderState = OrderState.Preparing;
-            order.StartTime = DateTime.Now;
-            order.DeliveryTime = DateTime.Now.AddHours(1).AddMinutes(new Random().Next(59));
 
             double totalPrice = 0;
             var sellerIds = new List<int>();

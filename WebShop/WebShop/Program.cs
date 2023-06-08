@@ -116,7 +116,7 @@ Task.Run(() =>
             var dbContext = scope.ServiceProvider.GetService<WebShopDBContext>();
             dbContext!.Orders!.ToList().ForEach(o =>
             {
-                if(o.OrderState == WebShop.Enums.OrderState.Preparing && o.DeliveryTime < DateTime.Now)
+                if(o.OrderState == WebShop.Enums.OrderState.Preparing && o.isAccepted && o.DeliveryTime < DateTime.Now)
                 {
                     o.OrderState = WebShop.Enums.OrderState.Delievered;
                 }
