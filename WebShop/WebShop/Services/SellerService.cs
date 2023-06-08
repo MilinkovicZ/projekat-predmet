@@ -153,6 +153,29 @@ namespace WebShop.Services
             var products = await _unitOfWork.ProductsRepository.GetAll();
             List<Product> sellerProducts = products.Where(x => x.SellerId == sellerId).ToList();
             return _mapper.Map<List<ProductDTO>>(sellerProducts);
-        }      
+        }
+
+        public async Task AcceptOrder(int orderId, int sellerId)
+        {
+            User? seller = await _unitOfWork.UsersRepository.Get(sellerId);
+            if (seller == null)
+                throw new UnauthorizedException($"Unable to find user with ID: {sellerId}.");
+
+            var products = await _unitOfWork.ProductsRepository.GetAll();
+            var filteredProduct = products.Where(p => p.SellerId == sellerId);
+            var productsIds = filteredProduct.Select(x => x.Id);
+
+            var orders = await _unitOfWork.OrdersRepository.GetAll();
+            var includedOrders = orders.Where(o => o.isAccepted == false).Include(o => o.Items);
+            var order = includedOrders.FirstOrDefault(o => o.Id == orderId);
+            if (order == null)
+                throw new BadRequestException($"Unable to find unaccepted order with ID: {orderId}.");
+            if (!order.Items.Any(i => productsIds.Contains(i.ProductId)))
+                throw new BadRequestException($"You dont have any products on order with ID: {orderId}.");
+
+            order.isAccepted = true;
+            _unitOfWork.OrdersRepository.Update(order);
+            await _unitOfWork.Save();
+        }
     }
 }

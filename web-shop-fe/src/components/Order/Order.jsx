@@ -49,9 +49,9 @@ const Order = ({ order, userType, onCancel }) => {
       </div>
       <div className={classes.orderStatus}>
         <p className={classes.orderStatusLabel}>Status:</p>
-        <p className={classes.orderStatusState}>{orderState}</p>
+        <p className={classes.orderStatusState}>{order.isAccepted ? orderState : "Not Accepted"}</p>
       </div>
-      {order.orderState === 0 && (
+      {order.orderState === 0 && order.isAccepted && (
         <div className={classes.deliveryTime}>
           <p className={classes.deliveryTimeLabel}>Delivery Time :</p>
           <p className={classes.deliveryTimeState}>

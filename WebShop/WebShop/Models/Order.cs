@@ -18,6 +18,8 @@ namespace WebShop.Models
         public double TotalPrice { get; set; }
         public User? Buyer { get; set; }
         [Required]
+        public bool isAccepted { get; set; }
+        [Required]
         public int BuyerId { get; set; }
         public List<Item> Items { get; set; } = new List<Item>();
     }

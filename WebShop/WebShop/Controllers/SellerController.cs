@@ -95,5 +95,16 @@ namespace WebShop.Controllers
             await _sellerService.UpdateProduct(id, productDTO, sellerId);
             return Ok();
         }
+
+        [HttpPost("AcceptOrder/{id}")]
+        [Authorize(Roles = "Seller")]
+        public async Task<IActionResult> AcceptOrder(int id)
+        {
+            if (!int.TryParse((User.Claims.First(c => c.Type == "UserId").Value), out int sellerId))
+                throw new BadRequestException("Error occured with ID. Please try again.");
+
+            await _sellerService.AcceptOrder(id, sellerId);
+            return Ok();
+        }
     }
 }

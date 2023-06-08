@@ -9,6 +9,7 @@ class OrderModel {
     this.deliveryTime = order.deliveryTime;
     this.totalPrice = order.totalPrice;
     this.orderState = order.orderState;
+    this.isAccepted = order.isAccepted;
     this.items = order.items.map((i) => new ItemModel(i));
   }
 }

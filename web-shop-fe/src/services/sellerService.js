@@ -50,6 +50,10 @@ const getNewOrders = async () => {
   }
 }
 
+const acceptOrder = async (id) => {
+  await API.post("Seller/AcceptOrder/" + id);
+};
+
 // eslint-disable-next-line
 export default {
   getProduct,
@@ -58,5 +62,6 @@ export default {
   updateProduct,
   deleteProduct,
   getOrders,
-  getNewOrders
+  getNewOrders,
+  acceptOrder
 };

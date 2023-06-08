@@ -1,13 +1,14 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import classes from "./ProductsMap.module.css";
 import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useState } from "react";
 import sellerService from "../../services/sellerService";
-import { useEffect } from "react";
 import L from "leaflet";
 import Geocode from "react-geocode";
+import { useNavigate } from "react-router-dom";
 
-const ProductsMap = () => {  
+const ProductsMap = () => {
   Geocode.setApiKey(process.env.REACT_APP_GEOCODE_KEY);
   Geocode.setLanguage("en");
   Geocode.setRegion("rs");
@@ -16,6 +17,8 @@ const ProductsMap = () => {
 
   const position = [46.104586472419314, 19.664730942252326];
   const [markersPositions, setMarkersPositions] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const navigator = useNavigate();
 
   const markerIcon = new L.Icon({
     iconUrl: "package.png",
@@ -29,19 +32,32 @@ const ProductsMap = () => {
 
   const fetchData = async () => {
     const newOrders = await sellerService.getNewOrders();
-    const markersData = [];
+    setOrders(newOrders);
 
+    const markersData = [];
     for (const o of newOrders) {
       try {
         const response = await Geocode.fromAddress(o.deliveryAddress);
         const { lat, lng } = response.results[0].geometry.location;
-        markersData.push({ id: o.id, lat:lat, lon:lng });
+        markersData.push({ id: o.id, lat: lat, lon: lng });
       } catch (error) {
         console.log(error);
       }
     }
 
     setMarkersPositions(markersData);
+    console.log(newOrders);
+  };
+
+  const handleAcceptOrder = async (orderId) => {
+    try {
+      await sellerService.acceptOrder(orderId);
+      navigator("/orders_seller");
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.Exception);
+      }
+    }
   };
 
   return (
@@ -54,7 +70,19 @@ const ProductsMap = () => {
       {markersPositions.map((marker) => (
         <div key={marker.id}>
           <Marker position={[marker.lat, marker.lon]} icon={markerIcon}>
-            <Popup>Order number: {marker.id}</Popup>
+            <Popup>
+              <p className={classes.orderNumber}>Order number: {marker.id}</p>
+              {!orders.find((order) => order.id === marker.id).isAccepted && (
+                <div className={classes.container}>
+                  <button
+                    className={classes.acceptButton}
+                    onClick={() => handleAcceptOrder(marker.id)}
+                  >
+                    Accept
+                  </button>
+                </div>
+              )}
+            </Popup>
           </Marker>
         </div>
       ))}

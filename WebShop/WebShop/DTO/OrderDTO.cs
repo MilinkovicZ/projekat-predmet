@@ -24,5 +24,7 @@ namespace WebShop.DTO
         public DateTime StartTime { get; set; }
         public DateTime DeliveryTime { get; set; }
         public OrderState OrderState { get; set; }
+        [Required]
+        public bool IsAccepted { get; set; }
     }
 }
