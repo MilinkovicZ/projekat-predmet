@@ -7,6 +7,7 @@ import sellerService from "../../services/sellerService";
 import L from "leaflet";
 import Geocode from "react-geocode";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ProductsMap = () => {
   Geocode.setApiKey(process.env.REACT_APP_GEOCODE_KEY);
@@ -70,7 +71,7 @@ const ProductsMap = () => {
         <div key={marker.id}>
           <Marker position={[marker.lat, marker.lon]} icon={markerIcon}>
             <Popup>
-              <p className={classes.orderNumber}>Order number: {marker.id}</p>
+              <Link to="/orders_seller" className={classes.orderNumber}>Order number: {marker.id}</Link>
               {!orders.find((order) => order.id === marker.id).isAccepted && (
                 <div className={classes.container}>
                   <button
