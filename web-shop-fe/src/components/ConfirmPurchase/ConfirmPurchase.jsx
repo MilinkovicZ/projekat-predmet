@@ -5,7 +5,7 @@ import buyerService from "../../services/buyerService";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import classes from "./ConfirmPurchase.module.css";
 
-const ConfirmPurchase = ({ address, comment }) => {
+const ConfirmPurchase = () => {
   const cartContext = useContext(CartContext);
   const navigator = useNavigate();
 
@@ -17,10 +17,10 @@ const ConfirmPurchase = ({ address, comment }) => {
 
     const createOrderValues = {
       items,
-      deliveryAddress: cartContext.address.trim(),
+      deliveryAddress: cartContext.address,
       comment: cartContext.comment,
     };
-
+    
     try {
       await buyerService.createOrder(createOrderValues);
       cartContext.clearCart();
@@ -60,7 +60,7 @@ const ConfirmPurchase = ({ address, comment }) => {
 
       const createOrderValues = {
         items,
-        deliveryAddress: cartContext.address.trim(),
+        deliveryAddress: cartContext.address,
         comment: cartContext.comment,
       };
 

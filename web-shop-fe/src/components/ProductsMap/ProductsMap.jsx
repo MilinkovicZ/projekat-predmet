@@ -46,7 +46,6 @@ const ProductsMap = () => {
     }
 
     setMarkersPositions(markersData);
-    console.log(newOrders);
   };
 
   const handleAcceptOrder = async (orderId) => {

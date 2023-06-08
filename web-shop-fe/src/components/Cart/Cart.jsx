@@ -2,18 +2,27 @@ import React, { useContext, useState } from "react";
 import { CartContext } from "../../store/cartContext";
 import classes from "./Cart.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useJsApiLoader, Autocomplete } from "@react-google-maps/api";
 
 const Cart = () => {
   const navigator = useNavigate();
   const cartContext = useContext(CartContext);
   const [address, setAddress] = useState("");
   const [comment, setComment] = useState("");
+  const [libraries] = useState(["places"]);
+  const autocompleteRef = useRef(null);
 
   useEffect(() => {
     setAddress(cartContext.address);
     setComment(cartContext.comment);
   }, [cartContext.address, cartContext.comment]);
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.REACT_APP_GEOCODE_KEY,
+    language: "en",
+    libraries,
+  });
 
   const handleRemoveItem = (itemId) => {
     cartContext.removeFromCart(itemId);
@@ -29,14 +38,13 @@ const Cart = () => {
 
   const calculateTotalPrice = () => {
     let totalPrice = 0;
-    const sellerIds = []
+    const sellerIds = [];
     for (const item of cartContext.cartItems) {
       totalPrice += item.price * item.quantity;
-      if (!sellerIds.includes(item.sellerId))
-        sellerIds.push(item.sellerId)
+      if (!sellerIds.includes(item.sellerId)) sellerIds.push(item.sellerId);
     }
-    
-    return (totalPrice + sellerIds.length*2.99).toFixed(2);
+
+    return (totalPrice + sellerIds.length * 2.99).toFixed(2);
   };
 
   const handlePurchase = async () => {
@@ -47,8 +55,12 @@ const Cart = () => {
 
     cartContext.setCartAddress(address);
     cartContext.setCartComment(comment);
-    navigator('/confirm_purchase');
+    navigator("/confirm_purchase");
   };
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={classes.shoppingCart}>
@@ -95,15 +107,27 @@ const Cart = () => {
       </ul>
       <div className={classes.inputFields}>
         <label htmlFor="address">Address:</label>
-        <input
-          type="text"
-          id="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-        />
+        <Autocomplete
+          onLoad={(autocomplete) => {
+            autocompleteRef.current = autocomplete;
+          }}
+          onPlaceChanged={() => {
+            const selectedPlace = autocompleteRef.current.getPlace();
+            if (selectedPlace && selectedPlace.formatted_address) {
+              setAddress(selectedPlace.formatted_address);
+            }
+          }}
+        >
+          <input
+            placeholder="Insert your address"
+            type="text"
+            id="address"
+            required
+          />
+        </Autocomplete>
         <label htmlFor="comment">Comment:</label>
         <input
+          placeholder="Insert your comment"
           type="text"
           id="comment"
           value={comment}
@@ -114,7 +138,9 @@ const Cart = () => {
         Total Price: ${calculateTotalPrice()}
       </div>
       <div className={classes.note}>
-        <p>Delivery fee is <strong>$2.99</strong> per seller.</p>
+        <p>
+          Delivery fee is <strong>$2.99</strong> per seller.
+        </p>
       </div>
       <div className={classes.linkButton}>
         <Link className={classes.link} to="/create_new_order" />
