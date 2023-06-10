@@ -10,6 +10,16 @@
   text-decoration: none;
 }
 
+.address {
+  font-style: italic;
+}
+
+.price {
+  font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 .acceptButton {
   background-color: darkgreen;
   color: white;
@@ -22,7 +32,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
 }
 
 .acceptButton:hover {

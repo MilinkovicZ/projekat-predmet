@@ -37,10 +37,11 @@ const ProductsMap = () => {
 
     const markersData = [];
     for (const o of newOrders) {
+      console.log(o);
       try {
         const response = await Geocode.fromAddress(o.deliveryAddress);
         const { lat, lng } = response.results[0].geometry.location;
-        markersData.push({ id: o.id, lat: lat, lon: lng });
+        markersData.push({ id: o.id, lat: lat, lon: lng, price:o.totalPrice.toFixed(2), address:o.deliveryAddress});
       } catch (error) {
         console.log(error);
       }
@@ -71,7 +72,9 @@ const ProductsMap = () => {
         <div key={marker.id}>
           <Marker position={[marker.lat, marker.lon]} icon={markerIcon}>
             <Popup>
-              <Link to="/orders_seller" className={classes.orderNumber}>Order number: {marker.id}</Link>
+              <Link to="/orders_seller" className={classes.orderNumber}>Order number: {marker.id}</Link>              
+              <p className={classes.address}>Address: {marker.address}</p>
+              <p className={classes.price}>Price: ${marker.price}</p>
               {!orders.find((order) => order.id === marker.id).isAccepted && (
                 <div className={classes.container}>
                   <button
