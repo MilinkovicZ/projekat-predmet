@@ -37,7 +37,6 @@ const ProductsMap = () => {
 
     const markersData = [];
     for (const o of newOrders) {
-      console.log(o);
       try {
         const response = await Geocode.fromAddress(o.deliveryAddress);
         const { lat, lng } = response.results[0].geometry.location;
@@ -53,7 +52,7 @@ const ProductsMap = () => {
   const handleAcceptOrder = async (orderId) => {
     try {
       await sellerService.acceptOrder(orderId);
-      navigator("/orders_seller");
+      navigator("/my-orders");
     } catch (error) {
       if (error.response) {
         alert(error.response.data.Exception);
@@ -72,7 +71,7 @@ const ProductsMap = () => {
         <div key={marker.id}>
           <Marker position={[marker.lat, marker.lon]} icon={markerIcon}>
             <Popup>
-              <Link to="/orders_seller" className={classes.orderNumber}>Order number: {marker.id}</Link>              
+              <Link to="/my-orders" className={classes.orderNumber}>Order number: {marker.id}</Link>              
               <p className={classes.address}>Address: {marker.address}</p>
               <p className={classes.price}>Price: ${marker.price}</p>
               {!orders.find((order) => order.id === marker.id).isAccepted && (

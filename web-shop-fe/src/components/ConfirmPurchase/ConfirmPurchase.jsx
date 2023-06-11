@@ -26,7 +26,7 @@ const ConfirmPurchase = () => {
       cartContext.clearCart();
       cartContext.setCartAddress("");
       cartContext.setCartComment("");
-      navigator("/orders_buyer");
+      navigator("/previous-orders");
     } catch (error) {
       if (error.response) alert(error.response.data.Exception);
     }
@@ -69,7 +69,7 @@ const ConfirmPurchase = () => {
         cartContext.clearCart();
         cartContext.setCartAddress("");
         cartContext.setCartComment("");
-        navigator("/orders_buyer");
+        navigator("/previous-orders");
       } catch (error) {
         if (error.response) alert(error.response.data.Exception);
       }

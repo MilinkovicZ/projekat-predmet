@@ -38,7 +38,7 @@ function App() {
           element={role ? <Dashboard userType={role} /> : <Navigate to="/" />}
         />
         <Route
-          path="/editProfile"
+          path="/edit-profile"
           element={role ? <Profile /> : <Navigate to="/" />}
         />
         <Route
@@ -50,7 +50,7 @@ function App() {
           element={role === "Admin" ? <Orders userType="Admin" /> : <Navigate to="/dashboard"/>}
         />        
         <Route
-          path="/orders_seller"
+          path="/my-orders"
           element={role === "Seller" ? <Orders userType="Seller" /> : <Navigate to="/dashboard"/>}
         />
         <Route
@@ -58,19 +58,19 @@ function App() {
           element={role === "Seller" ? <Products userType="Seller"/> : <Navigate to="/dashboard"/>}
         />
         <Route
-          path="/create_new_product"
+          path="/new-product"
           element={role === "Seller" ? <CreateProduct/> : <Navigate to="/dashboard"/>}
         />
         <Route
-          path="/update_product/:id"
+          path="/update-product/:id"
           element={role === "Seller" ? <UpdateProduct/> : <Navigate to="/dashboard"/>}
         />
         <Route
-          path="/orders_buyer"
+          path="/previous-orders"
           element={role === "Buyer" ? <Orders userType="Buyer" /> : <Navigate to="/dashboard"/>}
         />
         <Route
-          path="/create_new_order"
+          path="/new-order"
           element={role === "Buyer" ? <NewOrder/> : <Navigate to="/dashboard"/>}
         />
         <Route
@@ -78,11 +78,11 @@ function App() {
           element={role === "Buyer" ? <Cart/> : <Navigate to="/dashboard"/>}
         />
         <Route
-          path="/confirm_purchase"
+          path="/purchase"
           element={role === "Buyer" ? <ConfirmPurchase/> : <Navigate to="/dashboard"/>}
         />
         <Route
-          path="packages_map"
+          path="packages"
           element={role === "Seller" ? <ProductsMap/> : <Navigate to="/dashboard"/>}/>
       </Routes>
     </React.Fragment>

@@ -55,7 +55,7 @@ const Cart = () => {
 
     cartContext.setCartAddress(address);
     cartContext.setCartComment(comment);
-    navigator("/confirm_purchase");
+    navigator("/purchase");
   };
 
   if (!isLoaded) {
@@ -143,7 +143,7 @@ const Cart = () => {
         </p>
       </div>
       <div className={classes.linkButton}>
-        <Link className={classes.link} to="/create_new_order" />
+        <Link className={classes.link} to="/new-order" />
         <button className={classes.confirmPurchase} onClick={handlePurchase}>
           Confirm Purchase
         </button>
