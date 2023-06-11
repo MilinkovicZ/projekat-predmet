@@ -44,6 +44,7 @@ namespace WebShop.Migrations
                     OrderState = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "Preparing"),
                     Comment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    isAccepted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     BuyerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -107,7 +108,7 @@ namespace WebShop.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "BirthDate", "Email", "FullName", "Image", "Password", "UserType", "Username", "VerificationState" },
-                values: new object[] { 1, "Bihacka 33", new DateTime(200, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "zdravkoAdmin@gmail.com", "Zdravko Milinkovic", null, "$2a$11$3Mqxpn6ia32LbYSXX.Fk/uB7Q8nS6HV4GqJX5.vX2rZQa47jJ0od2", "Admin", "zdravkoAdmin", "Accepted" });
+                values: new object[] { 1, "Bihacka 33", new DateTime(200, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "zdravkoAdmin@gmail.com", "Zdravko Milinkovic", null, "$2a$11$bk5N4WqafORvlhS5gUpkke22Tsa8Zh1WowBgzSeb960dzrtWzKiZW", "Admin", "zdravkoAdmin", "Accepted" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Item_OrderId",

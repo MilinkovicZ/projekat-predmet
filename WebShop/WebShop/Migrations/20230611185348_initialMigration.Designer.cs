@@ -12,7 +12,7 @@ using WebShop.Context;
 namespace WebShop.Migrations
 {
     [DbContext(typeof(WebShopDBContext))]
-    [Migration("20230607120750_initialMigration")]
+    [Migration("20230611185348_initialMigration")]
     partial class initialMigration
     {
         /// <inheritdoc />
@@ -89,6 +89,11 @@ namespace WebShop.Migrations
 
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
+
+                    b.Property<bool>("isAccepted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.HasKey("Id");
 
@@ -198,7 +203,7 @@ namespace WebShop.Migrations
                             BirthDate = new DateTime(200, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "zdravkoAdmin@gmail.com",
                             FullName = "Zdravko Milinkovic",
-                            Password = "$2a$11$3Mqxpn6ia32LbYSXX.Fk/uB7Q8nS6HV4GqJX5.vX2rZQa47jJ0od2",
+                            Password = "$2a$11$bk5N4WqafORvlhS5gUpkke22Tsa8Zh1WowBgzSeb960dzrtWzKiZW",
                             UserType = "Admin",
                             Username = "zdravkoAdmin",
                             VerificationState = "Accepted"

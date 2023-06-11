@@ -200,7 +200,7 @@ namespace WebShop.Migrations
                             BirthDate = new DateTime(200, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "zdravkoAdmin@gmail.com",
                             FullName = "Zdravko Milinkovic",
-                            Password = "$2a$11$NHZGhdJaakwrSSTolBWaYuBQbEyWLlbReVn9D48GjFpq5RTcOdFIa",
+                            Password = "$2a$11$bk5N4WqafORvlhS5gUpkke22Tsa8Zh1WowBgzSeb960dzrtWzKiZW",
                             UserType = "Admin",
                             Username = "zdravkoAdmin",
                             VerificationState = "Accepted"
